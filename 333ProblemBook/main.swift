@@ -101,3 +101,31 @@ struct Bill {
 }
 /* Empty bills:
  №5: Mike Duglas, summa: 0.0 */
+
+print("Блок 4. Логика и if/switch. Task 5. Проверка статуса заказаю Сделай: 1. Перечисление (enum)  OrderStatus  с такими вариантами: new, inProgress, shipped, delivered, cancelled. 2. Функцию, которая: принимает параметр типа  OrderStatus, возвращает строку ( String ) — текстовое сообщение для пользователя. Требования к сообщениям: для new  вернуть строку: «Заказ принят», для  inProgress  — 'Заказ обрабатывается', для  shipped  — 'Заказ отправлен', для  delivered  — 'Заказ доставлен', для  cancelled  — 'Заказ отменён'. Функцию обязательно реализовать через  switch  по значению  OrderStatus.")
+
+enum OrderStatus {
+    case new
+    case inProgress
+    case shipped
+    case delivered
+    case cancelled
+}
+func checkStatus(for message: OrderStatus ) -> String {
+        switch message {
+        case .new:
+            return "Order accepted"
+        case .inProgress:
+            return "Order is being processed"
+        case .shipped:
+            return "Order sent"
+        case .delivered:
+            return "Order delivered"
+        case .cancelled:
+            return "Order canceled"
+    }
+}
+    
+let status = OrderStatus.new
+let message = checkStatus(for: status)
+print(message) // Order accepted
