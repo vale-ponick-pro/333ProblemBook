@@ -129,3 +129,129 @@ func checkStatus(for message: OrderStatus ) -> String {
 let status = OrderStatus.new
 let message = checkStatus(for: status)
 print(message) // Order accepted
+
+print("Задание по классам. Task 6. Сделай класс  Customer  для покупателя магазина:Свойства: name: String  (let, неизменяемое), loyaltyPoints: Int  (var, может меняться), email: String  (var, может обновляться). Что нужно реализовать: 1. Инициализатор (constructor), который принимает все три значения. 2.    Метод  addPoints(_ points: Int) , который увеличивает  loyaltyPoints. 3.    Метод  canMakePurchase()  → возвращает  true , если  loyaltyPoints >= 100. Напиши полный код класса + пример создания объекта и вызова методов.")
+
+class Customer {
+    let name: String
+    var loyaltyPoints: Int
+    var email: String
+    
+    init(name: String, loyaltyPoints: Int, email: String) {
+        self.name = name
+        self.loyaltyPoints = loyaltyPoints
+        self.email = email
+    }
+        
+    func addPoints(_ points: Int) {
+        loyaltyPoints += points
+    }
+            
+    func canMakePurchase() -> Bool {
+        return loyaltyPoints >= 100
+    }
+}
+    
+let customer = Customer(name: "Bob", loyaltyPoints: 50, email:  "bob@email.com")
+customer.addPoints(12)
+print(customer.canMakePurchase()) // false
+
+print("адание по классам. Task 7: Класс Book для библиотеки: Создай класс Book со следующими свойствами: title: String (константа), author: String (константа), pages: Int (константа), isBorrowed: Bool (переменная, изначально false). Что нужно реализовать: Инициализатор, принимающий title, author и pages. Метод borrow() → меняет isBorrowed на true. Метод returnBook() → меняет isBorrowed на false. Метод isAvailable() → возвращает true, если книга не занята (то есть isBorrowed == false). Напиши полный код класса + пример: Создать книгу, Взять её в аренду, Проверить доступность, Вернуть книгу, Снова проверить доступность")
+
+class Book {
+    let title: String
+    let author: String
+    let pages: Int
+    var isBorrowed: Bool
+    
+    init(title: String, author: String, pages: Int, isBorrowed: Bool = false) {
+        self.title = title
+        self.author = author
+        self.pages = pages
+        self.isBorrowed = isBorrowed // используем переданное значение или false по умолчанию
+    }
+    
+    func borrow() {
+        isBorrowed = true
+    }
+    func returnBook() {
+        isBorrowed = false
+    }
+    
+    func isAvailable() -> Bool {
+        return !isBorrowed
+    }
+}
+
+let hobbit = Book(title: "Hobbit", author: "J.R.R.Tolkien", pages: 368) // isBorrowed = false auto!
+print(hobbit.isAvailable()) // true
+hobbit.borrow()
+print(hobbit.isAvailable()) // false
+hobbit.returnBook()
+print(hobbit.isAvailable()) // true
+
+print("Задание по опционалам (уровень middle junior). Task 8: Сделай функцию  processCustomerOrder(customerName: String?, orderAmount: Double?, discountCode: String?) -> String, которая: Логика функции: 1. Если  customerName  пустой ( nil ) → вернуть  'Отказ: имя клиента не указано'. 2. Если  orderAmount  пустой ( nil ) → вернуть  'Отказ: сумма заказа не указана'. 3. Если  discountCode  пустой ( nil ) → применить скидку 0%. 4.    Если все данные есть: Сумма со скидкой:  orderAmount * 0.9  (10% скидка при наличии промокода), Вернуть строку:'Заказ имя: сумма₽ → сумма со скидкой₽'. Требования: Использовать один  guard let  в начале для проверки  customerName  и  orderAmount, discountCode  обрабатывать через  if let, Обязательно использовать  ??  хотя бы один раз.")
+
+func processCustomerOrder(customerName: String?, orderAmount: Double?, discountCode: String?) -> String {
+    let discount = discountCode ?? "" // 1. Используем ?? для значения по умолчанию discount
+    guard let name = customerName, !name.isEmpty else {   // 2. Guard для обязательных полей
+        return "❌ Refusal: client name not specified"
+    }
+    guard let amount = orderAmount, amount > 0 else {
+        return "❌ Refusal: invalid order amount"
+    }
+    if discount.isEmpty {  // 3. Проверяем discount (уже не опционал благодаря ??)
+        return "⚠️ Order processed for \(name). Amount: \(amount) (No discount applied)"
+    }   // все проверки пройдены! промокод есть -> применим скидку
+    let discountedAmount = amount * 0.9
+    return "✅ Заказ \(name): \(amount)₽ → \(discountedAmount)₽"
+}
+
+// примеры вызова
+print(processCustomerOrder(customerName: "Gay Richi", orderAmount: 5550.99, discountCode: "Christmas10")) // ✅ Заказ Gay Richi: 5550.99₽ → 4995.891₽
+print(processCustomerOrder(customerName: nil, orderAmount: 7650.55, discountCode: "Christmas10")) // ❌ Refusal: client name not specified
+print(processCustomerOrder(customerName: "Rob Roy", orderAmount: nil, discountCode: "Christmas10")) // ❌ Refusal: invalid order amount
+print(processCustomerOrder(customerName: "Tim Cook", orderAmount: 100.0, discountCode: nil)) // ⚠️ Order processed for Tim Cook. Amount: 100.0 (No discount applied)
+
+print("Доп. задание на опционалы (повышенная сложность): Task 9. Сделай функцию  safeDivide(a: Double?, b: Double?) -> Double? , которая: Логика: 1.    Если любой из параметров  nil  → вернуть  nil. 2.    Если  b == 0  → вернуть  nil  (нельзя делить на ноль). 3.    Иначе вернуть результат  a / b. Требования: Один  guard let  для обоих параметров + ??  НЕ использовать, Вернуть  Double?  (результат тоже может быть опционалом).")
+
+func safeDivide(a: Double?, b: Double?) -> Double? {
+    guard let unwrappedA = a, let unwrappedB = b, unwrappedB != 0  else {
+        return nil
+    }
+    return  unwrappedA / unwrappedB
+}
+
+if let result1 = safeDivide(a: 12.0, b: 3.0) {
+    print(result1) // 4.0
+} else {
+    print("Cannot divide")
+}
+
+if let result2 = safeDivide(a: nil, b: 3.0) {
+    print(result2)
+} else {
+    print("Cannot divide") // Cannot divide
+}
+
+if let result3 = safeDivide(a: 12.0, b: nil) {
+    print(result3)
+} else {
+    print("Cannot divide") // Cannot divide
+}
+
+if let result4 = safeDivide(a: 12.0, b: 0.0) {
+    print(result4)
+} else {
+    print("Cannot divide") // Cannot divide
+}
+
+if let result5 = safeDivide(a: nil, b: nil) {
+    print(result5)
+} else {
+    print("Cannot divide") // Cannot divide
+}
+
+
+
+
