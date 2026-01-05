@@ -252,8 +252,6 @@ if let result5 = safeDivide(a: nil, b: nil) {
     print("Cannot divide") // Cannot divide
 }
 
-print("Задание на extension String: Task 10. Добавь метод shorted() к String, который: Если длина строки ≤ 10 символов → вернуть как есть, Если > 10 символов → обрезать до 7 символов")
-
 extension String {
     func shorted() -> String {
         if self.count <= 10 {
@@ -266,4 +264,38 @@ extension String {
 print("Hobbitania".shorted()) // Hobbitania
 print("Green Dragon".shorted()) // Green D...
 
+print("Task 11. extension String.isEmail(): Проверить, что строка — это email. Должно быть @ И точка после @")
+             
+extension String {
+    var isEmail: Bool {
+        return self.contains("@") && self.contains(".") &&
+               !self.contains("@.")
+    }
+}
 
+print("Hobbitania".isEmail)              // false
+print("GreenDragon@gmail.com".isEmail)   // true
+print("test@.".isEmail)                  // false
+print("bob@com".isEmail)                 // false
+
+print("Task 12. extension Array где Element: Int.positiveOnly(): [1, -2, 3, 0, -5, 7] → [1, 3, 7]")
+
+extension Array where Element == Int {
+    var positiveOnly: [Int] {  // ← возвращаем новый массив
+        return self.filter { $0 > 0 } // твоя логика тут
+    }
+}
+
+let numbers = [1, -2, 3, 0, -5, 7]
+print(numbers.positiveOnly)  // [1, 3, 7]
+
+print("Task 13. extension Double.currencyRUB(): 1234.567 → \"₽1234.57\"")
+
+extension Double {
+    var currencyRUB: String {
+        return "₽\(String(format: "%.2f", self))"
+    }
+}
+print(1234.5678.currencyRUB) // ₽1234.57
+print(5.0.currencyRUB) // ₽5.00
+print(0.12345.currencyRUB) // ₽0.12
