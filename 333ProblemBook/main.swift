@@ -252,6 +252,18 @@ if let result5 = safeDivide(a: nil, b: nil) {
     print("Cannot divide") // Cannot divide
 }
 
+print("Задание на extension String: Task 10. Добавь метод shorted() к String, который: Если длина строки ≤ 10 символов → вернуть как есть, Если > 10 символов → обрезать до 7 символов")
 
+extension String {
+    func shorted() -> String {
+        if self.count <= 10 {
+            return self // короткая строка - как есть
+        } else {
+            return String(self.prefix(7)) + "..."
+        }
+    }
+}
+print("Hobbitania".shorted()) // Hobbitania
+print("Green Dragon".shorted()) // Green D...
 
 
