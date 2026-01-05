@@ -299,3 +299,55 @@ extension Double {
 print(1234.5678.currencyRUB) // ₽1234.57
 print(5.0.currencyRUB) // ₽5.00
 print(0.12345.currencyRUB) // ₽0.12
+
+print("Task 14. Shopping Cart: ВСЕ 3 extensions")
+
+struct Product {
+    let name: String
+    let price: Double
+    let tags: [Int]  // 1=есть, -1=нет ← Array для .positiveOnly!
+}
+
+let cart = [
+    Product(name: "iPhone 17 air 256 gb", price: 89.555, tags: [1]),
+    Product(name: "iPhone 17 max 256 gb", price: 112.999, tags: [-1]),
+    Product(name: "iPhone 17 max pro 256 gb", price: 189.999, tags: [-1]),
+    Product(name: "iPhone 17 max pro 512 gb", price: 212.555, tags: [1]),
+    Product(name: "admin@shop.ru", price: 99.99, tags: [1, -1])
+]
+
+for product in cart {
+    print("\(product.name):")
+    print("  Email: \(product.name.isEmail ? "✅" : "❌")") // ← extension 1
+    print("  Price: \(product.price.currencyRUB)") // ← extension 2
+    print("  Status: \(product.tags.positiveOnly.isEmpty ? "❌ Нет" : "✅ Есть (\(product.tags.positiveOnly.count))")") // ← extension 3
+    print("---")
+}
+/*
+ Task 14. Shopping Cart: ВСЕ 3 extensions
+ iPhone 17 air 256 gb:
+   Email: ❌
+   Price: ₽89.56
+   Status: ✅ Есть (1)
+ ---
+ iPhone 17 max 256 gb:
+   Email: ❌
+   Price: ₽113.00
+   Status: ❌ Нет
+ ---
+ iPhone 17 max pro 256 gb:
+   Email: ❌
+   Price: ₽190.00
+   Status: ❌ Нет
+ ---
+ iPhone 17 max pro 512 gb:
+   Email: ❌
+   Price: ₽212.56
+   Status: ✅ Есть (1)
+ ---
+ admin@shop.ru:
+   Email: ✅
+   Price: ₽99.99
+   Status: ✅ Есть (1)
+ ---
+ */
