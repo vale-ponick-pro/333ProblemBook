@@ -300,7 +300,7 @@ print(1234.5678.currencyRUB) // ₽1234.57
 print(5.0.currencyRUB) // ₽5.00
 print(0.12345.currencyRUB) // ₽0.12
 
-print("Task 14. Shopping Cart: ВСЕ 3 extensions")
+print("Task 14. Shopping Cart: All 3 extensions")
 
 struct Product {
     let name: String
@@ -324,7 +324,7 @@ for product in cart {
     print("---")
 }
 /*
- Task 14. Shopping Cart: ВСЕ 3 extensions
+ Task 14. Shopping Cart: All 3 extensions
  iPhone 17 air 256 gb:
    Email: ❌
    Price: ₽89.56
