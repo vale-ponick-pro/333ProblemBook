@@ -349,5 +349,4 @@ for product in cart {
    Email: ✅
    Price: ₽99.99
    Status: ✅ Есть (1)
- ---
- */
+ --- */
