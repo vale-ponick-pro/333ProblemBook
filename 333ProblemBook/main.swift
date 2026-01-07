@@ -350,3 +350,7 @@ for product in cart {
    Price: ₽99.99
    Status: ✅ Есть (1)
  --- */
+
+/*
+ lesson with Arsenty 7.01.26 project ToDoList
+ */
