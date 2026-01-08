@@ -354,3 +354,23 @@ for product in cart {
 /*
  lesson with Arsenty 7.01.26 project ToDoList
  */
+print("Задача 15. Чётные числа: Напиши функцию, которая: принимает число  n: Int, возвращает массив всех чётных чисел от 1 до  n  включительно.")
+// var. 1
+func calculateEvenNumbers(n: Int) -> [Int] {
+    var numbers: [Int] = []
+    for number in 1...n {
+        if number % 2 == 0 {
+            numbers.append(number)
+        }
+    }
+    return numbers
+}
+
+print(calculateEvenNumbers(n: 21)) // [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]
+
+// var. 2
+func calcEvenNums(n: Int) -> [Int] {
+    return Array(1...n).filter { $0 % 2 == 0 }
+}
+
+print(calcEvenNums(n: 27)) // [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26]
