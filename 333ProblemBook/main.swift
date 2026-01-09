@@ -356,9 +356,9 @@ for product in cart {
  */
 print("Задача 15. Чётные числа: Напиши функцию, которая: принимает число  n: Int, возвращает массив всех чётных чисел от 1 до  n  включительно.")
 // var. 1
-func calculateEvenNumbers(n: Int) -> [Int] {
+func calculateEvenNumbers(limit: Int) -> [Int] {
     var numbers: [Int] = []
-    for number in 1...n {
+    for number in 1...limit {
         if number % 2 == 0 {
             numbers.append(number)
         }
@@ -366,42 +366,95 @@ func calculateEvenNumbers(n: Int) -> [Int] {
     return numbers
 }
 
-print(calculateEvenNumbers(n: 21)) // [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]
+print(calculateEvenNumbers(limit: 21)) // [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]
 
 // var. 2
-func calcEvenNums(n: Int) -> [Int] {
-    return Array(1...n).filter { $0 % 2 == 0 }
+func calcEvenNums(upTo limit: Int) -> [Int] {
+    return Array(1...limit).filter { $0 % 2 == 0 }
 }
 
-print(calcEvenNums(n: 27)) // [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26]
+print(calcEvenNums(upTo: 27)) // [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26]
 
 // var. 3 верни сумму чётных чисел от 1 до  n  (через цикл и через  filter + reduce )
     
-func calcEvenNumbers(n: Int) -> Int {
-    return Array(1...n)
+func calcEvenNumbers(upTo limit: Int) -> Int {
+    return Array(1...limit)
         .filter { $0 % 2 == 0 }
         .reduce(0, +)
 }
 
-print(calcEvenNumbers(n: 7)) // 12
+print(calcEvenNumbers(upTo: 7)) // 12
 
 // var. 4 вернуть только нечётные числа
 
-func calculateOddNums(n: Int) -> [Int] {
-    return Array(1...n)
+func calculateOddNums(upTo limit: Int) -> [Int] {
+    return Array(1...limit)
         .filter { $0 % 2 != 0 }
 }
-print(calculateOddNums(n: 10)) // [1, 3, 5, 7, 9]
+print(calculateOddNums(upTo: 10)) // [1, 3, 5, 7, 9]
 
 // var. 5 САМЫЙ ЭФФЕКТИВНЫЙ! сделать версию, где шаг сразу 2 (2, 4, 6…) без проверки  % 2 == 0 .
 
-func calculateEvenNums(n: Int) -> [Int] {
-    return Array(stride(from: 2, through: n, by: 2))
+func calculateEvenNums(upTo limit: Int) -> [Int] {
+    return Array(stride(from: 2, through: limit, by: 2))
 }
-print(calculateEvenNums(n: 9)) // [2, 4, 6, 8]
+print(calculateEvenNums(upTo: 9)) // [2, 4, 6, 8]
 /* решение с stride — оптимальное по производительности и читаемости! 🎯
  Сложность: O(n/2) ≈ O(n), но с лучшей константой
-
  Количество итераций: n/2 (только по четным числам)
-
  Операции на итерацию: только инкремент на 2 */
+
+// var. 6 универсальное решение: поиск четных/нечетных чисел/суммы в ОДНОЙ функции
+
+enum NumbersOperation {
+    case allEvenNumbers // вернуть массив четных
+    case allOddNumbers // вернуть массив НЕчетных
+    case sumEvenNumbers // вернуть сумму четных
+    case sumOddNumbers // впнуть сумму НЕчетных
+}
+func processNumbers(upTo limit: Int, operation: NumbersOperation) -> Any {
+    let evenSequence = stride(from: 2, through: limit, by: 2)
+    let oddSequence = stride(from: 1, through: limit, by: 2)
+    
+    switch operation {
+    case .allEvenNumbers:
+        return Array(evenSequence)
+    case .allOddNumbers:
+        return Array(oddSequence)
+    case .sumEvenNumbers:
+        return evenSequence.reduce(0, +)
+    case .sumOddNumbers:
+        return oddSequence.reduce(0, +)
+    }
+}
+
+let evens = processNumbers(upTo: 12, operation: .allEvenNumbers) as! [Int]
+let odds = processNumbers(upTo: 12, operation: .allOddNumbers) as! [Int]
+let sumEvens = processNumbers(upTo: 12, operation: .sumEvenNumbers) as! Int
+let sumOdds = processNumbers(upTo: 12, operation: .sumOddNumbers) as! Int
+
+/* Правило: если вызов читается как английское предложение — лейблы нужны. Если как математическая формула — можно без. */
+print("🎯 Тренинг лейблов. Задача 16. Сумма цифр. Напиши функцию, которая принимает число и возвращает сумму его цифр.")
+// вар. 1
+func sumDigits(of number: Int) -> Int { // 'сумма цифр числа'
+    let number = String(number)
+    var sum = 0
+    for char in number {
+        if let char = char.wholeNumberValue {
+            sum += char
+        }
+    }
+    return sum
+}
+let sum = sumDigits(of: 12345) // 15
+print(sum)
+
+// вар. 2
+func sumDigits(in number: Int) -> Int {
+    return String(number).compactMap {$0.wholeNumberValue }.reduce(0,+)
+}
+let summa = sumDigits(in: 12345) // 15
+print(summa) // 15
+/* String(number)        // "12345"
+ .compactMap { ... }   // [1,2,3,4,5]
+ .reduce(0, +)         // 15 ✅ */
