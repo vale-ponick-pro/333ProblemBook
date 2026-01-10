@@ -399,6 +399,7 @@ func calculateEvenNums(upTo limit: Int) -> [Int] {
     return Array(stride(from: 2, through: limit, by: 2))
 }
 print(calculateEvenNums(upTo: 9)) // [2, 4, 6, 8]
+
 /* решение с stride — оптимальное по производительности и читаемости! 🎯
  Сложность: O(n/2) ≈ O(n), но с лучшей константой
  Количество итераций: n/2 (только по четным числам)
@@ -458,3 +459,46 @@ print(summa) // 15
 /* String(number)        // "12345"
  .compactMap { ... }   // [1,2,3,4,5]
  .reduce(0, +)         // 15 ✅ */
+
+/* feat: implement even numbers processing
+ 
+ var.1-6: от цикла до универсальной функции
+ stride(from:through:by:) — O(n/2) эффективность
+ лейблы upTo limit по Apple guidelines
+
+ feat(numeric): add sumDigits with compactMap
+
+ String → [Int?] → sum за 1 строку
+ compactMap { $0.wholeNumberValue }
+ пример: 12345 → 15 */
+
+print("🎯 Задача 17: Покупки (Корзина). Функция принимает список цен товаров и скидку в %, возвращает итоговую сумму со скидкой.")
+// var.1
+func calcSumWithDiscunt(for prices: [Double], with discount: Double) -> Double {
+    var sum = 0.0
+    let multiplier = 1 - discount / 100  // ✅ Вынесли 1 раз!
+    for price in prices {
+        sum += price * multiplier
+    }
+    return sum
+}
+let sumWithDiscount = calcSumWithDiscunt(for: [12.25, 555.5, 777.777, 9999.99], with: 20)
+print(sumWithDiscount) // 9076.4136 ✅
+
+// var.2 functional
+func calculateSumWithDiscunt(for prices: [Double], with discount: Double) -> Double {
+    let sum = prices.reduce(0, +) // 0(n) считаем 1 раз
+    return sum * (1 - discount/100) // просто умножаем
+}
+let summaWithDiscount = calculateSumWithDiscunt(for: [12.25, 555.5, 777.777, 9999.99], with: 20)
+print(summaWithDiscount) // 9076.4136
+
+/* feat: add shopping cart calculator
+ var.1 optimized circle for-In (multiplier extracted)
+ var.2 .reduce(0, +) + discount multiplier (1 - discount/100)
+ why var.2 wins?
+ - shorter(2 vs 6 lines)
+ - higher-order function style
+ - reads as math: 'summa * coefficient'
+ - both 0(n) ✅, but var.2 - more expressive 🎯 */
+ 
