@@ -502,3 +502,23 @@ print(summaWithDiscount) // 9076.4136
  - reads as math: 'summa * coefficient'
  - both 0(n) ✅, but var.2 - more expressive 🎯 */
  
+class Animal {
+    var name: String  // ← var свойство!
+    
+    init(name: String) {
+        self.name = name
+    }
+}
+
+let cat = Animal(name: "Барсик")  // let константа класса
+cat.name = "Мурзик"               // ✅ ЭТО РАБОТАЕТ!
+
+print(cat.name)  // Выведет: "Мурзик"
+
+// Задание: перепиши это безопасно и красиво
+func formatUserInfo(from data: [String: Any]) -> String {
+    let name = data["name"] as! String
+    let age = data["age"] as! Int
+    let city = data["city"] as! String
+    return "\(name), \(age), \(city)"
+}
