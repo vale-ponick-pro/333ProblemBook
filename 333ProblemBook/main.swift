@@ -522,3 +522,44 @@ func formatUserInfo(from data: [String: Any]) -> String {
     let city = data["city"] as! String
     return "\(name), \(age), \(city)"
 }
+
+print("🎯 Задание: «Книжная полка». Уровень 1 (Базовый — 15-20 строк): Структура Book с свойствами: title (название), author (автор), year (год издания), isRead (прочитана ли). Создай 3-4 книги (экземпляра). Функция, которая выводит информацию о книге в виде: 'Название' - Автор (Год) [Прочитано/Не прочитано]. Выведи информацию о каждой книге")
+
+struct Bookshelf {
+    let title: String
+    let author: String
+    let year: Int
+    var isRead: Bool
+}
+
+let hobbits = Bookshelf(title: "Hobbit", author: "J.R.R.Tolkien", year: 1967, isRead: true)
+let shining = Bookshelf(title: "Shining", author: "S.King", year: 1977, isRead: true)
+let darkTower = Bookshelf(title: "The Dark Tower", author: "S.King", year: 1982, isRead: true)
+let lastWish = Bookshelf(title: "Last Wish", author: "A.Sapkowski", year: 2007, isRead: false)
+
+func getInfo(about bookshelf: Bookshelf) -> String {
+    let status = bookshelf.isRead ? "Read" : "Not read"
+    return "\"\(bookshelf.title)\" - \(bookshelf.author) (\(bookshelf.year)) [\(status)]"
+    
+}
+print(getInfo(about: hobbits))
+print(getInfo(about: shining))
+print(getInfo(about: darkTower))
+print(getInfo(about: lastWish))
+/* 🎯 Задание: «Книжная полка». Уровень 1 (Базовый — 15-20 строк): Структура Book с свойствами: title (название), author (автор), year (год издания), isRead (прочитана ли). Создай 3-4 книги (экземпляра). Функция, которая выводит информацию о книге в виде: 'Название' - Автор (Год) [Прочитано/Не прочитано]. Выведи информацию о каждой книге
+ 
+ "Hobbit" - J.R.R.Tolkien (1967) [Read]
+ "Shining" - S.King (1977) [Read]
+ "The Dark Tower" - S.King (1982) [Read]
+ "Last Wish" - A.Sapkowski (2007) [Not read] */
+
+// var. 2 Напиши функцию, которая принимает книгу и возвращает её же, но с isRead = true
+
+func markAsRead(bookshelf: Bookshelf) -> Bookshelf {
+    return Bookshelf(title: bookshelf.title, author: bookshelf.author, year: bookshelf.year, isRead: true)
+
+}
+print(markAsRead(bookshelf: hobbits)) // Bookshelf(title: "Hobbit", author: "J.R.R.Tolkien", year: 1967, isRead: true)
+print(markAsRead(bookshelf: shining)) // Bookshelf(title: "Shining", author: "S.King", year: 1977, isRead: true)
+print(markAsRead(bookshelf: darkTower)) // Bookshelf(title: "The Dark Tower", author: "S.King", year: 1982, isRead: true)
+print(markAsRead(bookshelf: lastWish)) // Bookshelf(title: "Last Wish", author: "A.Sapkowski", year: 2007, isRead: true)
