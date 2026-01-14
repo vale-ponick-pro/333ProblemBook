@@ -574,82 +574,89 @@ struct Movie {
     let year: Int
     var isWatched: Bool
     
-    mutating func markAsWatched() { // mutating подход: меняем себя!
+    // Mutating approach: modifies self
+    mutating func markAsWatched() {
         isWatched = true
     }
     
-    func withYear(_ newYear: Int) -> Movie { // Immutable подход: возвращаем НОВУЮ версию!
+    // Immutable approach: returns new instance
+    func withYear(_ newYear: Int) -> Movie {
         Movie(title: title, director: director, year: newYear, isWatched: isWatched)
     }
 }
-// ДАННЫЕ:
+
+// Data
 let jaws = Movie(title: "Jaws", director: "S.Spielberg", year: 1975, isWatched: false)
 let up = Movie(title: "Up", director: "P.Docter", year: 2017, isWatched: false)
 let us = Movie(title: "Us", director: "J.Peele", year: 2019, isWatched: false)
 let theKing = Movie(title: "The King", director: "D.Misho", year: 2019, isWatched: true)
 
-// ЕДИНАЯ функция форматирования
+// Unified formatting utility
 func format(_ movie: Movie) -> String {
     let status = movie.isWatched ? "Watched" : "Not watched"
     return "\"\(movie.title)\" (\(movie.year)) - \(movie.director) [\(status)]"
 }
 
-let movies = [up, jaws, us, theKing]
+let movies = [jaws, up, us, theKing]
 
-// ВЫВОД - ОДИН раз - через ЕДИНУЮ функцию
-print("🎬 All movies:")
+print("\n🎬 All movies:")
 movies.forEach { print(format($0)) }
 
-let sortedByYears = movies.sorted { $0.year < $1.year }
-
+let sortedByYear = movies.sorted { $0.year < $1.year }
 print("\n📅 Sorted by year:")
-sortedByYears.forEach { print(format($0)) }
+sortedByYear.forEach { print(format($0)) }
 
-// DEMO mutating vs immutable
-print("\n🔧  DEMO difference mutating vs immutable:")
+print("\n🔧 Demo: mutating vs immutable approaches")
 
-// 1. IMMUTABLE: режиссерская версия
+// 1. Immutable demonstration
 let directorCut = jaws.withYear(2026)
-print("IMMUTABLE: \(format(directorCut))")
-print("Original remains: \(format(jaws))")
+print("\nIMMUTABLE approach (returns new instance):")
+print("Director's cut: \(format(directorCut))")
+print("Original unchanged: \(format(jaws))")
 
-// 2. MUTATING: mark as watched
+// 2. Mutating demonstration
 var mutableUp = up
-print("\nTO mutating: \(format(mutableUp))")
+print("\nMUTATING approach (modifies instance):")
+print("Before: \(format(mutableUp))")
 mutableUp.markAsWatched()
-print("\nAFTER mutating: \(format(mutableUp))")
-print("Original up NOT CHANCGE: \(format(up))")
+print("After: \(format(mutableUp))")
+print("Original unchanged: \(format(up))")
 
-// 3. usefull sorting: unwatched movies
+// 3. Practical usage: filter unwatched movies
 let unwatched = movies.filter { !$0.isWatched }
-print("\n👀 НЕПРОСМОТРЕННЫЕ (\(unwatched.count)):")
+print("\n👀 Unwatched movies (\(unwatched.count)):")
 unwatched.forEach { print(format($0)) }
 
-print("\n🏆 Task completed successfully!")
+print("\n✅ Task completed successfully!")
 
-/* 🏆
- 🎯 Задача 21: «Библиотека фильмов». Создай структуру Movie (фильм) со свойствами: title (название, строка), director (режиссёр, строка), year (год выпуска, целое число), isWatched (просмотрен ли, булево). Создай 3-4 фильма (экземпляра Movie). Напиши функцию, которая принимает фильм и возвращает строку: Формат: 'Название' (Год) - Режиссёр [Просмотрен/Не просмотрен]. Напиши MUTATING функцию, которая помечает фильм как просмотренный. Напиши IMMUTABLE функцию, которая возвращает новый фильм с изменённым годом (например, для расширенной/режиссерской версии). Создай массив фильмов и выведи информацию о каждом. *Дополнительно: отсортируй фильмы по году выпуска
+/* 🎯 Задача 21: «Библиотека фильмов». Создай структуру Movie (фильм) со свойствами: title (название, строка), director (режиссёр, строка), year (год выпуска, целое число), isWatched (просмотрен ли, булево). Создай 3-4 фильма (экземпляра Movie). Напиши функцию, которая принимает фильм и возвращает строку: Формат: 'Название' (Год) - Режиссёр [Просмотрен/Не просмотрен]. Напиши MUTATING функцию, которая помечает фильм как просмотренный. Напиши IMMUTABLE функцию, которая возвращает новый фильм с изменённым годом (например, для расширенной/режиссерской версии). Создай массив фильмов и выведи информацию о каждом. *Дополнительно: отсортируй фильмы по году выпуска
+ 
  🎬 All movies:
- "Up" (2017) - P.Docter [Not watched]
- "Jaws" (1975) - S.Spielberg [Not watched]
- "Us" (2019) - J.Peele [Not watched]
- "The King" (2019) - D.Misho [Watched]
- n📅 Sorted by year:
  "Jaws" (1975) - S.Spielberg [Not watched]
  "Up" (2017) - P.Docter [Not watched]
  "Us" (2019) - J.Peele [Not watched]
  "The King" (2019) - D.Misho [Watched]
 
- 🔧  DEMO difference mutating vs immutable:
- IMMUTABLE: "Jaws" (2026) - S.Spielberg [Not watched]
- Original remains: "Jaws" (1975) - S.Spielberg [Not watched]
-
- TO mutating: "Up" (2017) - P.Docter [Not watched]
-
- AFTER mutating: "Up" (2017) - P.Docter [Watched]
- Original up NOT CHANCGE: "Up" (2017) - P.Docter [Not watched]
-
- 👀 НЕПРОСМОТРЕННЫЕ (3):
- "Up" (2017) - P.Docter [Not watched]
+ 📅 Sorted by year:
  "Jaws" (1975) - S.Spielberg [Not watched]
- "Us" (2019) - J.Peele [Not watched] */
+ "Up" (2017) - P.Docter [Not watched]
+ "Us" (2019) - J.Peele [Not watched]
+ "The King" (2019) - D.Misho [Watched]
+
+ 🔧 Demo: mutating vs immutable approaches
+
+ IMMUTABLE approach (returns new instance):
+ Director's cut: "Jaws" (2026) - S.Spielberg [Not watched]
+ Original unchanged: "Jaws" (1975) - S.Spielberg [Not watched]
+
+ MUTATING approach (modifies instance):
+ Before: "Up" (2017) - P.Docter [Not watched]
+ After: "Up" (2017) - P.Docter [Watched]
+ Original unchanged: "Up" (2017) - P.Docter [Not watched]
+
+ 👀 Unwatched movies (3):
+ "Jaws" (1975) - S.Spielberg [Not watched]
+ "Up" (2017) - P.Docter [Not watched]
+ "Us" (2019) - J.Peele [Not watched]
+
+ ✅ Task completed successfully! */
