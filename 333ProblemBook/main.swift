@@ -502,7 +502,8 @@ print(summaWithDiscount) // 9076.4136
  - reads as math: 'summa * coefficient'
  - both 0(n) ✅, but var.2 - more expressive 🎯 */
  
-class Animal {
+print("Задача 18. Classes")
+    class Animal {
     var name: String  // ← var свойство!
     
     init(name: String) {
@@ -515,7 +516,8 @@ cat.name = "Мурзик"               // ✅ ЭТО РАБОТАЕТ!
 
 print(cat.name)  // Выведет: "Мурзик"
 
-// Задание: перепиши это безопасно и красиво
+print("Задание 19: перепиши это безопасно и красиво")
+
 func formatUserInfo(from data: [String: Any]) -> String {
     let name = data["name"] as! String
     let age = data["age"] as! Int
@@ -523,7 +525,7 @@ func formatUserInfo(from data: [String: Any]) -> String {
     return "\(name), \(age), \(city)"
 }
 
-print("🎯 Задание: «Книжная полка». Уровень 1 (Базовый — 15-20 строк): Структура Book с свойствами: title (название), author (автор), year (год издания), isRead (прочитана ли). Создай 3-4 книги (экземпляра). Функция, которая выводит информацию о книге в виде: 'Название' - Автор (Год) [Прочитано/Не прочитано]. Выведи информацию о каждой книге")
+print("🎯 Задание 20: «Книжная полка». Уровень 1 (Базовый — 15-20 строк): Структура Book с свойствами: title (название), author (автор), year (год издания), isRead (прочитана ли). Создай 3-4 книги (экземпляра). Функция, которая выводит информацию о книге в виде: 'Название' - Автор (Год) [Прочитано/Не прочитано]. Выведи информацию о каждой книге")
 
 struct Bookshelf {
     let title: String
@@ -546,14 +548,14 @@ print(getInfo(about: hobbits))
 print(getInfo(about: shining))
 print(getInfo(about: darkTower))
 print(getInfo(about: lastWish))
-/* 🎯 Задание: «Книжная полка». Уровень 1 (Базовый — 15-20 строк): Структура Book с свойствами: title (название), author (автор), year (год издания), isRead (прочитана ли). Создай 3-4 книги (экземпляра). Функция, которая выводит информацию о книге в виде: 'Название' - Автор (Год) [Прочитано/Не прочитано]. Выведи информацию о каждой книге
+/* 🎯 Задание 20: «Книжная полка». Уровень 1 (Базовый — 15-20 строк): Структура Book с свойствами: title (название), author (автор), year (год издания), isRead (прочитана ли). Создай 3-4 книги (экземпляра). Функция, которая выводит информацию о книге в виде: 'Название' - Автор (Год) [Прочитано/Не прочитано]. Выведи информацию о каждой книге
  
  "Hobbit" - J.R.R.Tolkien (1967) [Read]
  "Shining" - S.King (1977) [Read]
  "The Dark Tower" - S.King (1982) [Read]
  "Last Wish" - A.Sapkowski (2007) [Not read] */
 
-// var. 2 Напиши функцию, которая принимает книгу и возвращает её же, но с isRead = true
+// var. 20.2 Напиши функцию, которая принимает книгу и возвращает её же, но с isRead = true
 
 func markAsRead(bookshelf: Bookshelf) -> Bookshelf {
     return Bookshelf(title: bookshelf.title, author: bookshelf.author, year: bookshelf.year, isRead: true)
@@ -563,3 +565,91 @@ print(markAsRead(bookshelf: hobbits)) // Bookshelf(title: "Hobbit", author: "J.R
 print(markAsRead(bookshelf: shining)) // Bookshelf(title: "Shining", author: "S.King", year: 1977, isRead: true)
 print(markAsRead(bookshelf: darkTower)) // Bookshelf(title: "The Dark Tower", author: "S.King", year: 1982, isRead: true)
 print(markAsRead(bookshelf: lastWish)) // Bookshelf(title: "Last Wish", author: "A.Sapkowski", year: 2007, isRead: true)
+
+print("🎯 Задача 21: «Библиотека фильмов». Создай структуру Movie (фильм) со свойствами: title (название, строка), director (режиссёр, строка), year (год выпуска, целое число), isWatched (просмотрен ли, булево). Создай 3-4 фильма (экземпляра Movie). Напиши функцию, которая принимает фильм и возвращает строку: Формат: 'Название' (Год) - Режиссёр [Просмотрен/Не просмотрен]. Напиши MUTATING функцию, которая помечает фильм как просмотренный. Напиши IMMUTABLE функцию, которая возвращает новый фильм с изменённым годом (например, для расширенной/режиссерской версии). Создай массив фильмов и выведи информацию о каждом. *Дополнительно: отсортируй фильмы по году выпуска")
+
+struct Movie {
+    let title: String
+    let director: String
+    let year: Int
+    var isWatched: Bool
+    
+    mutating func markAsWatched() { // mutating подход: меняем себя!
+        isWatched = true
+    }
+    
+    func withYear(_ newYear: Int) -> Movie { // Immutable подход: возвращаем НОВУЮ версию!
+        Movie(title: title, director: director, year: newYear, isWatched: isWatched)
+    }
+}
+// ДАННЫЕ:
+let jaws = Movie(title: "Jaws", director: "S.Spielberg", year: 1975, isWatched: false)
+let up = Movie(title: "Up", director: "P.Docter", year: 2017, isWatched: false)
+let us = Movie(title: "Us", director: "J.Peele", year: 2019, isWatched: false)
+let theKing = Movie(title: "The King", director: "D.Misho", year: 2019, isWatched: true)
+
+// ЕДИНАЯ функция форматирования
+func format(_ movie: Movie) -> String {
+    let status = movie.isWatched ? "Watched" : "Not watched"
+    return "\"\(movie.title)\" (\(movie.year)) - \(movie.director) [\(status)]"
+}
+
+let movies = [up, jaws, us, theKing]
+
+// ВЫВОД - ОДИН раз - через ЕДИНУЮ функцию
+print("🎬 All movies:")
+movies.forEach { print(format($0)) }
+
+let sortedByYears = movies.sorted { $0.year < $1.year }
+
+print("\n📅 Sorted by year:")
+sortedByYears.forEach { print(format($0)) }
+
+// DEMO mutating vs immutable
+print("\n🔧  DEMO difference mutating vs immutable:")
+
+// 1. IMMUTABLE: режиссерская версия
+let directorCut = jaws.withYear(2026)
+print("IMMUTABLE: \(format(directorCut))")
+print("Original remains: \(format(jaws))")
+
+// 2. MUTATING: mark as watched
+var mutableUp = up
+print("\nTO mutating: \(format(mutableUp))")
+mutableUp.markAsWatched()
+print("\nAFTER mutating: \(format(mutableUp))")
+print("Original up NOT CHANCGE: \(format(up))")
+
+// 3. usefull sorting: unwatched movies
+let unwatched = movies.filter { !$0.isWatched }
+print("\n👀 НЕПРОСМОТРЕННЫЕ (\(unwatched.count)):")
+unwatched.forEach { print(format($0)) }
+
+print("\n🏆 Task completed successfully!")
+
+/* 🏆
+ 🎯 Задача 21: «Библиотека фильмов». Создай структуру Movie (фильм) со свойствами: title (название, строка), director (режиссёр, строка), year (год выпуска, целое число), isWatched (просмотрен ли, булево). Создай 3-4 фильма (экземпляра Movie). Напиши функцию, которая принимает фильм и возвращает строку: Формат: 'Название' (Год) - Режиссёр [Просмотрен/Не просмотрен]. Напиши MUTATING функцию, которая помечает фильм как просмотренный. Напиши IMMUTABLE функцию, которая возвращает новый фильм с изменённым годом (например, для расширенной/режиссерской версии). Создай массив фильмов и выведи информацию о каждом. *Дополнительно: отсортируй фильмы по году выпуска
+ 🎬 All movies:
+ "Up" (2017) - P.Docter [Not watched]
+ "Jaws" (1975) - S.Spielberg [Not watched]
+ "Us" (2019) - J.Peele [Not watched]
+ "The King" (2019) - D.Misho [Watched]
+ n📅 Sorted by year:
+ "Jaws" (1975) - S.Spielberg [Not watched]
+ "Up" (2017) - P.Docter [Not watched]
+ "Us" (2019) - J.Peele [Not watched]
+ "The King" (2019) - D.Misho [Watched]
+
+ 🔧  DEMO difference mutating vs immutable:
+ IMMUTABLE: "Jaws" (2026) - S.Spielberg [Not watched]
+ Original remains: "Jaws" (1975) - S.Spielberg [Not watched]
+
+ TO mutating: "Up" (2017) - P.Docter [Not watched]
+
+ AFTER mutating: "Up" (2017) - P.Docter [Watched]
+ Original up NOT CHANCGE: "Up" (2017) - P.Docter [Not watched]
+
+ 👀 НЕПРОСМОТРЕННЫЕ (3):
+ "Up" (2017) - P.Docter [Not watched]
+ "Jaws" (1975) - S.Spielberg [Not watched]
+ "Us" (2019) - J.Peele [Not watched] */
