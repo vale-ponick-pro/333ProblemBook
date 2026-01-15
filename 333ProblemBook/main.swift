@@ -660,3 +660,50 @@ print("\n✅ Task completed successfully!")
  "Us" (2019) - J.Peele [Not watched]
 
  ✅ Task completed successfully! */
+
+print("🛒 Задача 1: 'List of groceries' (warm-up task!)")
+
+enum Category { // категории товаров
+    case groceries
+    case household
+    case electronics
+    case dishes
+    case other
+}
+
+struct ShoppingItem { // товар
+    let name: String
+    let category: Category
+    let quantity: Int
+    let price: Double
+    var isPurchased: Bool
+    
+    var totalPrice: Double { // вычисляемое свойство
+        Double(quantity) * price
+    }
+    
+    mutating func markAsPurchased() { // товар купленный!
+        isPurchased = true
+    }
+    
+    func getWithQuantity(_ newQuantity: Int) -> ShoppingItem { // измененное количество
+        ShoppingItem(name: name, category: category, quantity: newQuantity, price: price, isPurchased: isPurchased)
+    }
+}
+
+let milk = ShoppingItem(name: "milk", category: .groceries, quantity: 3, price: 120.00, isPurchased: true)
+let soup = ShoppingItem(name: "soup", category: .household, quantity: 2, price: 656.99, isPurchased: true)
+let iPhone = ShoppingItem(name: "IPhone 17 max pro", category: .electronics, quantity: 1, price: 127.99, isPurchased: false)
+let teaPair = ShoppingItem(name: "tea pair", category: .dishes, quantity: 2, price: 1500.00, isPurchased: true)
+let trout = ShoppingItem(name: "trout", category: .groceries, quantity: 1, price: 1200.50, isPurchased: false)
+
+let products = [milk, soup, iPhone, teaPair, trout]
+
+var productsByCategory = Dictionary(grouping: products, by: { $0.category })
+
+func calcTotalPrice(_ products: [ShoppingItem]) -> Double {
+    products.reduce(0) { $0 + $1.totalPrice }
+}
+    
+
+
