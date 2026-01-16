@@ -661,9 +661,9 @@ print("\n✅ Task completed successfully!")
 
  ✅ Task completed successfully! */
 
-print("🛒 Задача 1: 'List of groceries' (warm-up task!)")
+print("🎯 Task 22: Shopping List with mutating/immutable patterns")
 
-enum Category { // категории товаров
+enum Category {
     case groceries
     case household
     case electronics
@@ -671,42 +671,47 @@ enum Category { // категории товаров
     case other
 }
 
-struct ShoppingItem { // товар
+struct ShoppingItem {
     let name: String
     let category: Category
     let quantity: Int
     let price: Double
     var isPurchased: Bool
     
-    var totalPrice: Double { // вычисляемое свойство
+    var totalPrice: Double {
         Double(quantity) * price
     }
     
-    mutating func markAsPurchased() { // товар купленный!
+    mutating func markAsPurchased() {
         isPurchased = true
     }
     
-    func getWithQuantity(_ newQuantity: Int) -> ShoppingItem { // измененное количество
-        ShoppingItem(name: name, category: category, quantity: newQuantity, price: price, isPurchased: isPurchased)
+    func getWithQuantity(_ newQuantity: Int) -> ShoppingItem {
+        ShoppingItem(name: name, category: category, quantity: newQuantity,
+                    price: price, isPurchased: isPurchased)
     }
 }
 
+// Sample data
 let milk = ShoppingItem(name: "milk", category: .groceries, quantity: 3, price: 120.00, isPurchased: true)
 let soup = ShoppingItem(name: "soup", category: .household, quantity: 2, price: 656.99, isPurchased: true)
-let iPhone = ShoppingItem(name: "IPhone 17 max pro", category: .electronics, quantity: 1, price: 127.99, isPurchased: false)
+let iPhone = ShoppingItem(name: "iPhone 17 max pro", category: .electronics, quantity: 1, price: 127.99, isPurchased: false)
 let teaPair = ShoppingItem(name: "tea pair", category: .dishes, quantity: 2, price: 1500.00, isPurchased: true)
 let trout = ShoppingItem(name: "trout", category: .groceries, quantity: 1, price: 1200.50, isPurchased: false)
 
 let products = [milk, soup, iPhone, teaPair, trout]
 
-var productsByCategory = Dictionary(grouping: products, by: { $0.category })
+// Group by category
+let productsByCategory = Dictionary(grouping: products, by: { $0.category })
 
-func calcTotalPrice(_ products: [ShoppingItem]) -> Double {
+// Calculate total price
+func calculateTotalPrice(_ products: [ShoppingItem]) -> Double {
     products.reduce(0) { $0 + $1.totalPrice }
 }
 
+// Formatted output
 print("🛒 SHOPPING LIST")
-print("--------------")
+print("----------------")
 
 for (category, items) in productsByCategory {
     print("\n\(category):")
@@ -716,16 +721,35 @@ for (category, items) in productsByCategory {
     }
 }
 
-print("\n-------------")
-print("TOTAL: \(calcTotalPrice(products)) руб.")
+print("\n--------------")
+print("TOTAL: \(calculateTotalPrice(products)) руб.")
 
 let unpurchased = products.filter { !$0.isPurchased }
-print("Unpurchased total: \(calcTotalPrice(unpurchased)) руб.")
+print("Unpurchased total: \(calculateTotalPrice(unpurchased)) руб.")
 
-/* Задача 1: 'List of groceries' (warm-up task!)
- 
+// Demonstrate mutating vs immutable
+print("\n🔧 Demonstration:")
+var mutableTrout = trout
+print("Before: \(mutableTrout.name) purchased: \(mutableTrout.isPurchased)")
+mutableTrout.markAsPurchased()
+print("After mutating: \(mutableTrout.name) purchased: \(mutableTrout.isPurchased)")
+print("Original trout unchanged: \(trout.isPurchased)")
+
+let doubleMilk = milk.getWithQuantity(6)
+print("\nImmutable change: \(milk.name) x\(milk.quantity) → \(doubleMilk.name) x\(doubleMilk.quantity)")
+print("Original milk unchanged: x\(milk.quantity)")
+
+print("\n🎯 Shopping list implementation complete!")
+
+/* 🎯 Task 22: Shopping List with mutating/immutable patterns
  🛒 SHOPPING LIST
- --------------
+ ----------------
+
+ electronics:
+   ⏳ iPhone 17 max pro x1 = 127.99 руб.
+
+ dishes:
+   ✅ tea pair x2 = 3000.0 руб.
 
  household:
    ✅ soup x2 = 1313.98 руб.
@@ -734,12 +758,16 @@ print("Unpurchased total: \(calcTotalPrice(unpurchased)) руб.")
    ✅ milk x3 = 360.0 руб.
    ⏳ trout x1 = 1200.5 руб.
 
- dishes:
-   ✅ tea pair x2 = 3000.0 руб.
-
- electronics:
-   ⏳ IPhone 17 max pro x1 = 127.99 руб.
-
- -------------
+ --------------
  TOTAL: 6002.47 руб.
- Unpurchased total: 1328.49 руб. */
+ Unpurchased total: 1328.49 руб.
+
+ 🔧 Demonstration:
+ Before: trout purchased: false
+ After mutating: trout purchased: true
+ Original trout unchanged: false
+
+ Immutable change: milk x3 → milk x6
+ Original milk unchanged: x3
+
+ 🎯 Shopping list implementation complete! */
