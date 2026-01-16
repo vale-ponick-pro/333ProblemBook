@@ -704,6 +704,42 @@ var productsByCategory = Dictionary(grouping: products, by: { $0.category })
 func calcTotalPrice(_ products: [ShoppingItem]) -> Double {
     products.reduce(0) { $0 + $1.totalPrice }
 }
-    
 
+print("🛒 SHOPPING LIST")
+print("--------------")
 
+for (category, items) in productsByCategory {
+    print("\n\(category):")
+    for item in items {
+        let status = item.isPurchased ? "✅" : "⏳"
+        print("  \(status) \(item.name) x\(item.quantity) = \(item.totalPrice) руб.")
+    }
+}
+
+print("\n-------------")
+print("TOTAL: \(calcTotalPrice(products)) руб.")
+
+let unpurchased = products.filter { !$0.isPurchased }
+print("Unpurchased total: \(calcTotalPrice(unpurchased)) руб.")
+
+/* Задача 1: 'List of groceries' (warm-up task!)
+ 
+ 🛒 SHOPPING LIST
+ --------------
+
+ household:
+   ✅ soup x2 = 1313.98 руб.
+
+ groceries:
+   ✅ milk x3 = 360.0 руб.
+   ⏳ trout x1 = 1200.5 руб.
+
+ dishes:
+   ✅ tea pair x2 = 3000.0 руб.
+
+ electronics:
+   ⏳ IPhone 17 max pro x1 = 127.99 руб.
+
+ -------------
+ TOTAL: 6002.47 руб.
+ Unpurchased total: 1328.49 руб. */
