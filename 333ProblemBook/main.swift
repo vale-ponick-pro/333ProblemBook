@@ -704,9 +704,21 @@ let products = [milk, soup, iPhone, teaPair, trout]
 // Group by category
 let productsByCategory = Dictionary(grouping: products, by: { $0.category })
 
+var mostPopularCategory: Category? { // вычисляемое свойство
+    productsByCategory.max(by: { $0.value.count < $1.value.count })?.key
+}
+
 // Calculate total price
 func calculateTotalPrice(_ products: [ShoppingItem]) -> Double {
     products.reduce(0) { $0 + $1.totalPrice }
+}
+
+func findMostExpensiveItem(in products: [ShoppingItem]) -> ShoppingItem? {
+    products.max(by: { $0.price < $1.price })
+}
+
+func sortByPriceDescending(_ products: [ShoppingItem]) -> [ShoppingItem] {
+    products.sorted{ $0.price > $1.price }
 }
 
 // Formatted output
@@ -739,24 +751,38 @@ let doubleMilk = milk.getWithQuantity(6)
 print("\nImmutable change: \(milk.name) x\(milk.quantity) → \(doubleMilk.name) x\(doubleMilk.quantity)")
 print("Original milk unchanged: x\(milk.quantity)")
 
+print("\n📊 STATISTICS:")
+if let expensive = findMostExpensiveItem(in: products) {
+    print("  Most expensive: \(expensive.name) - \(expensive.price) руб.")
+}
+
+if let popular = mostPopularCategory {
+    print("  Most popular category: \(popular)")
+}
+
+let sorted = sortByPriceDescending(products)
+print("\n  Sorted by price (high → low):")
+sorted.prefix(3).forEach { print("    • \($0.name): \($0.price) руб.") }
+    
 print("\n🎯 Shopping list implementation complete!")
+
 
 /* 🎯 Task 22: Shopping List with mutating/immutable patterns
  🛒 SHOPPING LIST
  ----------------
+
+ groceries:
+   ✅ milk x3 = 360.0 руб.
+   ⏳ trout x1 = 1200.5 руб.
+
+ household:
+   ✅ soup x2 = 1313.98 руб.
 
  electronics:
    ⏳ iPhone 17 max pro x1 = 127.99 руб.
 
  dishes:
    ✅ tea pair x2 = 3000.0 руб.
-
- household:
-   ✅ soup x2 = 1313.98 руб.
-
- groceries:
-   ✅ milk x3 = 360.0 руб.
-   ⏳ trout x1 = 1200.5 руб.
 
  --------------
  TOTAL: 6002.47 руб.
@@ -769,5 +795,14 @@ print("\n🎯 Shopping list implementation complete!")
 
  Immutable change: milk x3 → milk x6
  Original milk unchanged: x3
+
+ 📊 STATISTICS:
+   Most expensive: tea pair - 1500.0 руб.
+   Most popular category: groceries
+
+   Sorted by price (high → low):
+     • tea pair: 1500.0 руб.
+     • trout: 1200.5 руб.
+     • soup: 656.99 руб.
 
  🎯 Shopping list implementation complete! */
