@@ -806,3 +806,5 @@ print("\n🎯 Shopping list implementation complete!")
      • soup: 656.99 руб.
 
  🎯 Shopping list implementation complete! */
+
+print("Морозные дни")
